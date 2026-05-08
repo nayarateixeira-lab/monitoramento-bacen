@@ -327,9 +327,9 @@ function renderComp(){
   mkGrp("cc-t",t26,COMP25_TOT);mkGrp("cc-b",b26,COMP25_BAC);
   mkGrp("cc-p",ALL.map(i=>DBACEN.proc[i]),COMP25_PRO);
   mkGrp("cc-i",ALL.map(i=>DBACEN.imp[i]),COMP25_IMP);
-  function pv(n,d){return d?((n-d)/d*100).toFixed(1)+"%":"n/d";}
+  function pv(n,d){if(!d)return"n/d";const p=((n-d)/d*100).toFixed(1);return(n>=d?"+":"")+p+"%";}
   function cl(n,d){return n>=d?"up":"dn";}
-  function sy(n,d){return n>=d?"â–² +":"â–¼ ";}
+  
   const t26s=t26.reduce((a,v)=>a+v,0),b26s=b26.reduce((a,v)=>a+v,0);
   const t25=COMP25_TOT.reduce((a,v)=>a+v,0),b25=COMP25_BAC.reduce((a,v)=>a+v,0);
   const p26=ALL.map(i=>DBACEN.proc[i]).reduce((a,v)=>a+v,0),i26=ALL.map(i=>DBACEN.imp[i]).reduce((a,v)=>a+v,0);
@@ -337,7 +337,7 @@ function renderComp(){
   document.getElementById("tb-comp").innerHTML=[
     ["Total de casos",t26s,t25],["Recebidos do BACEN",b26s,b25],
     ["Procedentes",p26,p25],["Improcedentes",i26,i25],
-  ].map(([l,a,b])=>"<tr><td>"+l+"</td><td><b>"+a+"</b></td><td>"+b+"</td><td class=\""+cl(a,b)+"\">"+sy(a,b)+pv(a,b)+"</td></tr>").join("");
+  ].map(([l,a,b])=>"<tr><td>"+l+"</td><td><b>"+a+"</b></td><td>"+b+"</td><td class=\""+cl(a,b)+"\">"+pv(a,b)+"</td></tr>").join("");
 }
 
 let fM=MSGS.slice(),pg=1;const PP=15;
